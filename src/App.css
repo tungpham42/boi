@@ -1,0 +1,94 @@
+.app-wrapper {
+  background-image: url("/public/night.jpg") !important; /* Thay bằng URL hình nền sao hoặc hoa văn truyền thống */
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.fortune-container {
+  background: rgba(
+    0,
+    0,
+    0,
+    0.7
+  ) !important; /* Nền đen mờ để nổi bật nội dung */
+  border-radius: 15px !important;
+  padding: 20px !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5) !important; /* Hiệu ứng ánh sáng vàng */
+}
+
+.fortune-title {
+  color: #ffd700 !important; /* Màu vàng ánh kim */
+  font-family: "Dancing Script", cursive !important; /* Font chữ thư pháp */
+  text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.8) !important;
+}
+.fortune-form {
+  color: #fff !important; /* Chữ trắng để nổi trên nền tối */
+}
+
+.form-label {
+  color: #ffd700 !important; /* Màu vàng cho nhãn */
+  font-weight: bold !important;
+}
+
+.fortune-input {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid #ffd700 !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+
+.fortune-input:hover,
+.fortune-input:focus {
+  border-color: #00ced1 !important; /* Xanh ngọc khi hover/focus */
+  box-shadow: 0 0 10px rgba(0, 206, 209, 0.5) !important;
+}
+
+.fortune-button {
+  background: linear-gradient(
+    45deg,
+    #ffd700,
+    #ff4500
+  ) !important; /* Gradient vàng-cam */
+  border: none !important;
+  padding: 10px 20px !important;
+  font-size: 1.2rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.fortune-button:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.7) !important;
+}
+.fortune-result-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid #ffd700 !important;
+  color: #fff !important;
+  animation: fadeIn 1s ease-in !important;
+}
+
+.result-title {
+  color: #00ced1 !important; /* Xanh ngọc */
+  font-family: "Noto Serif", serif !important;
+}
+
+.result-text {
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
+}
+
+.chart-container {
+  margin-top: 20px !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0 !important;
+  }
+  to {
+    opacity: 1 !important;
+  }
+}
