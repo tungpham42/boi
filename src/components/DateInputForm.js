@@ -3,7 +3,7 @@ import { Form, Button, Row, Col } from "react-bootstrap";
 import $ from "jquery";
 import "bootstrap-datepicker";
 import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
-import Inputmask from "inputmask"; // Import inputmask
+import Inputmask from "inputmask";
 
 const DateInputForm = ({
   solarDate,
@@ -13,30 +13,49 @@ const DateInputForm = ({
   onSubmit,
 }) => {
   useEffect(() => {
-    // Initialize input mask for YYYY-MM-DD format
-    Inputmask({
-      mask: "9999-99-99",
-      placeholder: "YYYY-MM-DD",
+    // Initialize input mask for DD/MM/YYYY format
+    const inputMask = Inputmask({
+      mask: "99/99/9999",
+      placeholder: "DD/MM/YYYY",
       alias: "datetime",
-      inputFormat: "yyyy-mm-dd",
+      inputFormat: "dd/mm/yyyy",
       clearIncomplete: true,
+      oncomplete: function () {
+        // Trigger when the input mask is fully completed
+        const value = this.value;
+        const [day, month, year] = value.split("/").map(Number);
+        // Validate date
+        const date = new Date(year, month - 1, day);
+        if (
+          date.getFullYear() === year &&
+          date.getMonth() === month - 1 &&
+          date.getDate() === day
+        ) {
+          setSolarDate((prev) => ({
+            ...prev,
+            day: day.toString(),
+            month: month.toString(),
+            year: year.toString(),
+          }));
+        }
+      },
     }).mask("#birthdatePicker");
 
     // Initialize bootstrap-datepicker
     $("#birthdatePicker")
       .datepicker({
-        format: "yyyy-mm-dd",
-        startDate: "1900-01-01",
-        endDate: "2100-12-31",
+        format: "dd/mm/yyyy",
+        startDate: "01/01/1900",
+        endDate: "31/12/2100",
         autoclose: true,
       })
       .on("changeDate", (e) => {
-        // Handle date selection
+        // Handle date selection via datepicker
         const date = e.date;
         setSolarDate((prev) => ({
           ...prev,
           day: date.getDate().toString(),
-          month: (date.getMonth() + 1).toString(), // getMonth is 0-based
+          month: (date.getMonth() + 1).toString(),
           year: date.getFullYear().toString(),
         }));
       });
@@ -44,7 +63,7 @@ const DateInputForm = ({
     // Cleanup on component unmount
     return () => {
       $("#birthdatePicker").datepicker("destroy");
-      Inputmask.remove("#birthdatePicker"); // Remove input mask
+      inputMask.remove();
     };
   }, [setSolarDate]);
 
@@ -75,9 +94,9 @@ const DateInputForm = ({
               type="text"
               id="birthdatePicker"
               name="birthdate"
-              placeholder="YYYY-MM-DD"
+              placeholder="DD/MM/YYYY"
               className="fortune-input"
-              pattern="\d{4}-\d{2}-\d{2}"
+              pattern="\d{2}\/\d{2}\/\d{4}"
             />
           </Form.Group>
         </Col>
