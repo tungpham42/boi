@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import $ from "jquery";
+import "bootstrap-datepicker";
+import "bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css";
+import Inputmask from "inputmask"; // Import inputmask
 
 const DateInputForm = ({
   solarDate,
@@ -8,18 +12,45 @@ const DateInputForm = ({
   setActivity,
   onSubmit,
 }) => {
+  useEffect(() => {
+    // Initialize input mask for YYYY-MM-DD format
+    Inputmask({
+      mask: "9999-99-99",
+      placeholder: "YYYY-MM-DD",
+      alias: "datetime",
+      inputFormat: "yyyy-mm-dd",
+      clearIncomplete: true,
+    }).mask("#birthdatePicker");
+
+    // Initialize bootstrap-datepicker
+    $("#birthdatePicker")
+      .datepicker({
+        format: "yyyy-mm-dd",
+        startDate: "1900-01-01",
+        endDate: "2100-12-31",
+        autoclose: true,
+      })
+      .on("changeDate", (e) => {
+        // Handle date selection
+        const date = e.date;
+        setSolarDate((prev) => ({
+          ...prev,
+          day: date.getDate().toString(),
+          month: (date.getMonth() + 1).toString(), // getMonth is 0-based
+          year: date.getFullYear().toString(),
+        }));
+      });
+
+    // Cleanup on component unmount
+    return () => {
+      $("#birthdatePicker").datepicker("destroy");
+      Inputmask.remove("#birthdatePicker"); // Remove input mask
+    };
+  }, [setSolarDate]);
+
   const handleSolarInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "birthdate") {
-      // Parse the date string (YYYY-MM-DD) to update day, month, year
-      const date = new Date(value);
-      setSolarDate((prev) => ({
-        ...prev,
-        day: date.getDate().toString(),
-        month: (date.getMonth() + 1).toString(), // getMonth is 0-based
-        year: date.getFullYear().toString(),
-      }));
-    } else {
+    if (name !== "birthdate") {
       setSolarDate((prev) => ({ ...prev, [name]: value }));
     }
   };
@@ -41,12 +72,12 @@ const DateInputForm = ({
               Ngày sinh (Dương lịch)
             </Form.Label>
             <Form.Control
-              type="date"
+              type="text"
+              id="birthdatePicker"
               name="birthdate"
-              onChange={handleSolarInputChange}
+              placeholder="YYYY-MM-DD"
               className="fortune-input"
-              min="1900-01-01"
-              max="2100-12-31"
+              pattern="\d{4}-\d{2}-\d{2}"
             />
           </Form.Group>
         </Col>
