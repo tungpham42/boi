@@ -101,9 +101,13 @@ export const calculateFortune = (solarDate, activity) => {
 🌟 Ngày tốt trong năm ${currentYear} ${
     activity ? `cho ${getLabelByValue(activity)}` : "(tổng quát)"
   }:
-${goodDaysCurrentYear
-  .map((day) => `   🗓️ ${day.date}: ${day.recommendation}`)
-  .join("\n")}
+${
+  goodDaysCurrentYear.length > 0
+    ? goodDaysCurrentYear
+        .map((day) => `   🗓️ ${day.date}: ${day.recommendation}`)
+        .join("\n")
+    : "Không có"
+}
   `;
 
   return { result: fortune, lunarDate: lunar };

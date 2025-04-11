@@ -84,7 +84,15 @@ body {
 }
 
 .chart-container {
-  margin-top: 20px !important;
+  width: 100%;
+  min-height: 300px; /* Minimum height for smaller screens */
+  max-height: 500px; /* Cap height for larger screens */
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 300px; /* Adjust height for mobile */
+  }
 }
 
 @keyframes fadeIn {
