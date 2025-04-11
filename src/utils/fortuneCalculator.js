@@ -8,17 +8,16 @@ import {
   getNhiThapBatTu,
 } from "../data/ngocHapData";
 
-// Danh sách các hoạt động
 const activities = [
   { value: "", label: "Tất cả" },
-  { value: "xay-dung", label: "Xây dựng" },
-  { value: "ket-hon", label: "Kết hôn" },
-  { value: "xuat-hanh", label: "Xuất hành" },
-  { value: "an-tang", label: "An táng" },
+  { value: "xay-dung", label: "Xây dựng 🏡" },
+  { value: "ket-hon", label: "Kết hôn 💍" },
+  { value: "xuat-hanh", label: "Xuất hành ✈️" },
+  { value: "an-tang", label: "An táng ⚰️" },
 ];
 
 const getLabelByValue = (value) =>
-  activities.find((item) => item.value === value)?.label || "Tất cả";
+  activities.find((item) => item.value === value)?.label || "Tất cả 🌌";
 
 export const calculateFortune = (solarDate, activity) => {
   const { day, month, year, hour, gender } = solarDate;
@@ -28,7 +27,7 @@ export const calculateFortune = (solarDate, activity) => {
   // Kiểm tra dữ liệu đầu vào
   if (!day || !month || !year || !gender) {
     return {
-      result: "Hãy khai báo đầy đủ thông tin để tiên tri vận mệnh của bạn!",
+      result: "🚫 Vui lòng cung cấp đầy đủ thông tin để khám phá vận mệnh! 🌟",
     };
   }
 
@@ -40,73 +39,96 @@ export const calculateFortune = (solarDate, activity) => {
   );
 
   if (!lucThapHoaGiapData[lunar.lYear]) {
-    return { result: "Thiên cơ chưa thể hé lộ vận mệnh của năm này!" };
+    return { result: "🔮 Thiên cơ chưa thể tiết lộ vận mệnh năm này!" };
   }
 
-  // Lấy thông tin cơ bản từ dữ liệu
+  // Lấy thông tin vận mệnh
   const { canChi, menh, moTa, napAm } = lucThapHoaGiapData[lunar.lYear];
-  const hourBranch = hour ? getHourBranch(hour) : "Chưa định giờ";
-  const cungMenh = calculateCungMenh(year, gender, hour, hourBranch); // Truyền hourBranch vào
+  const hourBranch = hour ? getHourBranch(hour) : "Chưa rõ giờ";
+  const cungMenh = calculateCungMenh(year, gender, hour, hourBranch);
   const lucDieuResult = getLucDieu(lunar.lDay);
   const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay);
+  const saoChieuMenh = getSaoChieuMenh(lunar.lYear, gender);
   const dayRecommendations = recommendGoodBadDays(lunar.lDay, activity);
   const goodDaysCurrentYear = predictGoodDaysInCurrentYear(
     activity,
     currentDate
   );
   const yearFortune = predictYearFortune(menh, currentYear);
-  const saoChieuMenh = getSaoChieuMenh(lunar.lYear, gender);
 
-  // Tạo kết quả chi tiết với phong cách bói toán
+  // Kết hợp các hoạt động nên và không nên
+  const combinedSuitable = [
+    ...new Set([
+      ...(lucDieuResult.suitable || []),
+      ...(nhiThapBatTuResult.suitable || []),
+    ]),
+  ];
+  const combinedAvoid = [
+    ...new Set([
+      ...(lucDieuResult.avoid || []),
+      ...(nhiThapBatTuResult.avoid || []),
+    ]),
+  ];
+
+  // Tạo kết quả bói toán
   const fortune = `
-    🌟 **Vận Mệnh Tiên Tri - Ngọc Hạp Thông Thư** 🌟
-    Ngày sinh Dương lịch: ${day}/${month}/${year}
-    Ngày sinh Âm lịch: ${lunar.lDay}/${lunar.lMonth}/${lunar.lYear} (${canChi})
-    Giờ sinh: ${hour ? `${hour}h - ${hourBranch}` : "Chưa định giờ"}
-    Giới tính: ${gender === "male" ? "Nam" : "Nữ"}
-    Cung mệnh: ${cungMenh}
-    Mệnh ngũ hành: ${menh} (${napAm})
-    Tính cách định mệnh: ${moTa}
-    Sao chiếu mệnh: ${saoChieuMenh.name} - ${saoChieuMenh.meaning}
-    Lục Diệu: ${lucDieuResult} (${lucDieu[lucDieuResult]})
-    Nhị Thập Bát Tú: ${nhiThapBatTuResult} (${nhiThapBatTu[nhiThapBatTuResult]})
-    Đánh giá ngày sinh: ${dayRecommendations}
-    Vận hạn năm ${currentYear}: ${yearFortune}
-    Bí pháp phong thủy: ${
-      phongThuyAdvice[menh] || "Giữ tâm an, tránh xa thị phi."
-    }
-    \n🌟 **Ngày tốt trong năm ${currentYear}** ${
-    activity ? `cho "${getLabelByValue(activity)}"` : "(tổng quát)"
+🌙 BÓI TOÁN VẬN MỆNH - NGỌC HẠP THÔNG THƯ 🌙
+📅 Ngày sinh dương lịch: ${day}/${month}/${year}
+🪐 Ngày sinh âm lịch: ${lunar.lDay}/${lunar.lMonth}/${lunar.lYear} (${canChi})
+⏰ Giờ sinh: ${hour ? `${hour}h - ${hourBranch}` : "Chưa rõ giờ"}
+👤 Giới tính: ${gender === "male" ? "Nam" : "Nữ"}
+🧧 Cung mệnh: ${cungMenh}
+🔥 Mệnh ngũ hành: ${menh} (${napAm})
+💡 Tính cách: ${moTa}
+✨ Sao chiếu mệnh: ${saoChieuMenh.name} - ${saoChieuMenh.meaning}
+🌟 Lục Diệu: ${lucDieuResult.name} (${lucDieu[lucDieuResult.name].meaning})
+🌌 Nhị Thập Bát Tú: ${nhiThapBatTuResult.name} (${
+    nhiThapBatTu[nhiThapBatTuResult.name].meaning
+  })
+✅ Nên làm: ${combinedSuitable.join(", ") || "Không có"}
+🚫 Tránh: ${combinedAvoid.join(", ") || "Không có"}
+🌱 Tương sinh: ${nhiThapBatTuResult.compatibleElements.join(", ") || "Không có"}
+⚡ Tương khắc: ${
+    nhiThapBatTuResult.conflictingElements.join(", ") || "Không có"
+  }
+🍂 Mùa hợp: ${nhiThapBatTuResult.suitableSeason || "Không rõ"}
+📜 Tóm tắt: ${nhiThapBatTuResult.summary || "Không có"}
+🔍 Đánh giá ngày sinh: ${dayRecommendations}
+📈 Vận hạn năm ${currentYear}: ${yearFortune}
+🪬 Bí kíp phong thủy: ${
+    phongThuyAdvice[menh]?.tips?.join(" ") || "Giữ tâm an, tránh thị phi."
+  }
+🌟 Ngày tốt trong năm ${currentYear} ${
+    activity ? `cho ${getLabelByValue(activity)}` : "(tổng quát)"
   }:
-    ${goodDaysCurrentYear
-      .map((day) => `✨ ${day.date}: ${day.recommendation}`)
-      .join("\n")}
+${goodDaysCurrentYear
+  .map((day) => `   🗓️ ${day.date}: ${day.recommendation}`)
+  .join("\n")}
   `;
 
   return { result: fortune, lunarDate: lunar };
 };
 
-// Hàm lấy chi (12 địa chi) theo giờ sinh
+// Các hàm hỗ trợ giữ nguyên, chỉ điều chỉnh giao diện nếu cần
 const getHourBranch = (hour) => {
   const hourNum = parseInt(hour);
   const branches = [
-    "Tý",
-    "Sửu",
-    "Dần",
-    "Mão",
-    "Thìn",
-    "Tỵ",
-    "Ngọ",
-    "Mùi",
-    "Thân",
-    "Dậu",
-    "Tuất",
-    "Hợi",
+    "Tý 🐀",
+    "Sửu 🐂",
+    "Dần 🐅",
+    "Mão 🐇",
+    "Thìn 🐉",
+    "Tỵ 🐍",
+    "Ngọ 🐎",
+    "Mùi 🐐",
+    "Thân 🐒",
+    "Dậu 🐓",
+    "Tuất 🐕",
+    "Hợi 🐖",
   ];
-  return branches[Math.floor(((hourNum + 1) % 24) / 2)] || "Tý";
+  return branches[Math.floor(((hourNum + 1) % 24) / 2)] || "Tý 🐀";
 };
 
-// Tính cung mệnh theo năm, giới tính và giờ (đã sửa để nhận hourBranch)
 const calculateCungMenh = (year, gender, hour, hourBranch) => {
   const yearNum = parseInt(year);
   const sum = yearNum
@@ -124,44 +146,54 @@ const calculateCungMenh = (year, gender, hour, hourBranch) => {
   cungNum = gender === "male" ? 10 - cungNum || 9 : (cungNum + 5) % 9 || 9;
 
   const cungMap = {
-    male: ["", "Khảm", "Ly", "Chấn", "Tốn", "Càn", "Đoài", "Cấn", "Khôn", "Ly"],
+    male: [
+      "",
+      "Khảm 💧",
+      "Ly 🔥",
+      "Chấn ⚡",
+      "Tốn 🌬️",
+      "Càn ☁️",
+      "Đoài 🪞",
+      "Cấn 🏔️",
+      "Khôn 🌾",
+      "Ly 🔥",
+    ],
     female: [
       "",
-      "Khôn",
-      "Cấn",
-      "Đoài",
-      "Càn",
-      "Tốn",
-      "Chấn",
-      "Ly",
-      "Khảm",
-      "Càn",
+      "Khôn 🌾",
+      "Cấn 🏔️",
+      "Đoài 🪞",
+      "Càn ☁️",
+      "Tốn 🌬️",
+      "Chấn ⚡",
+      "Ly 🔥",
+      "Khảm 💧",
+      "Càn ☁️",
     ],
   };
   const baseCung = cungMap[gender][cungNum];
   const hourAdjust = {
-    Tý: "Khảm",
-    Sửu: "Cấn",
-    Dần: "Chấn",
-    Mão: "Chấn",
-    Thìn: "Tốn",
-    Tỵ: "Tốn",
-    Ngọ: "Ly",
-    Mùi: "Khôn",
-    Thân: "Đoài",
-    Dậu: "Đoài",
-    Tuất: "Càn",
-    Hợi: "Càn",
+    "Tý 🐀": "Khảm 💧",
+    "Sửu 🐂": "Cấn 🏔️",
+    "Dần 🐅": "Chấn ⚡",
+    "Mão 🐇": "Chấn ⚡",
+    "Thìn 🐉": "Tốn 🌬️",
+    "Tỵ 🐍": "Tốn 🌬️",
+    "Ngọ 🐎": "Ly 🔥",
+    "Mùi 🐐": "Khôn 🌾",
+    "Thân 🐒": "Đoài 🪞",
+    "Dậu 🐓": "Đoài 🪞",
+    "Tuất 🐕": "Càn ☁️",
+    "Hợi 🐖": "Càn ☁️",
   };
   return hour
     ? `${baseCung} (giờ ${hourBranch}: ${hourAdjust[hourBranch]})`
     : baseCung;
 };
 
-// Đánh giá ngày tốt/xấu theo Lục Diệu và Nhị Thập Bát Tú
 const recommendGoodBadDays = (lunarDay, selectedActivity) => {
-  const lucDieuResult = getLucDieu(lunarDay);
-  const nhiThapBatTuResult = getNhiThapBatTu(lunarDay);
+  const lucDieuResult = getLucDieu(lunarDay).name;
+  const nhiThapBatTuResult = getNhiThapBatTu(lunarDay).name;
   const goodLucDieu = ["Đại An", "Tốc Hỷ", "Tiểu Cát"];
   const activityStars = {
     "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
@@ -170,30 +202,26 @@ const recommendGoodBadDays = (lunarDay, selectedActivity) => {
     "an-tang": ["Hư", "Liễu"],
   };
 
-  let advice = goodLucDieu.includes(lucDieuResult)
-    ? "Ngày này đại cát: "
-    : "Ngày này hung hiểm: ";
+  let advice = "";
   const activitiesToCheck = selectedActivity
     ? [selectedActivity]
     : Object.keys(activityStars);
 
   activitiesToCheck.forEach((act) => {
-    const isGood = activityStars[act]?.includes(nhiThapBatTuResult);
-    advice += `${getLabelByValue(act)}: ${
-      isGood && goodLucDieu.includes(lucDieuResult) ? "Tốt" : "Xấu"
-    }, `;
+    const isGoodStar = activityStars[act]?.includes(nhiThapBatTuResult);
+    const isGood = isGoodStar && goodLucDieu.includes(lucDieuResult);
+    advice += `${getLabelByValue(act)}: ${isGood ? "Tốt ✅" : "Xấu 🚫"}, `;
   });
 
-  return advice.replace(/, $/, ".") || "Ngày này trung bình, cần thận trọng.";
+  advice = advice.replace(/, $/, ".");
+  return advice || "🔍 Chưa rõ, hãy thận trọng trong mọi việc!";
 };
 
-// Dự đoán ngày tốt trong năm
 const predictGoodDaysInCurrentYear = (selectedActivity, currentDate) => {
   const goodDays = [];
   const startDate = new Date(currentDate);
 
   for (let i = 0; i < 60; i++) {
-    // Tăng lên 60 ngày để có nhiều lựa chọn hơn
     const nextDate = new Date(startDate);
     nextDate.setDate(startDate.getDate() + i);
     const lunar = solarlunar.solar2lunar(
@@ -201,8 +229,8 @@ const predictGoodDaysInCurrentYear = (selectedActivity, currentDate) => {
       nextDate.getMonth() + 1,
       nextDate.getDate()
     );
-    const lucDieuResult = getLucDieu(lunar.lDay);
-    const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay);
+    const lucDieuResult = getLucDieu(lunar.lDay).name;
+    const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay).name;
 
     if (
       ["Đại An", "Tốc Hỷ", "Tiểu Cát"].includes(lucDieuResult) &&
@@ -217,12 +245,11 @@ const predictGoodDaysInCurrentYear = (selectedActivity, currentDate) => {
       });
     }
   }
-  return goodDays.slice(0, 5); // Lấy 5 ngày tốt nhất
+  return goodDays.slice(0, 5);
 };
 
-// Dự đoán vận mệnh năm hiện tại
 const predictYearFortune = (userMenh, currentYear) => {
-  const currentYearMenh = lucThapHoaGiapData[currentYear].menh;
+  const currentYearMenh = lucThapHoaGiapData[currentYear]?.menh || "Thổ";
   const tuongSinh = {
     Mộc: "Hỏa",
     Hỏa: "Thổ",
@@ -238,61 +265,101 @@ const predictYearFortune = (userMenh, currentYear) => {
     Thủy: "Kim",
   };
 
-  if (userMenh === currentYearMenh)
-    return "Thiên thời hòa hợp, vạn sự hanh thông.";
-  if (tuongSinh[userMenh] === currentYearMenh)
-    return "Ngũ hành tương sinh, tài lộc dồi dào.";
-  if (tuongSinh[currentYearMenh] === userMenh)
-    return "Được trời nâng đỡ, bình an vô sự.";
-  if (tuongKhac[userMenh] === currentYearMenh)
-    return "Tương khắc đè nén, cẩn thận tai ương.";
-  return "Vận mệnh trung bình, cần giữ tâm vững vàng.";
+  if (userMenh === currentYearMenh) {
+    return `
+🌟 Thiên thời hòa hợp 🌟
+Năm nay mệnh bạn hòa hợp vũ trụ, mọi sự hanh thông. Sự nghiệp thăng hoa nếu nắm cơ hội. Tài lộc dồi dào, quản lý chi tiêu cẩn thận. Tình cảm bền vững, sức khỏe tốt.
+🪬 Bí kíp: Tận dụng năng lượng tích cực, làm việc thiện.
+🏡 Phong thủy: Đặt vật phẩm mệnh ${userMenh} ở trung tâm nhà.
+    `;
+  }
+
+  if (tuongSinh[userMenh] === currentYearMenh) {
+    return `
+🌱 Ngũ hành tương sinh 🌱
+Mệnh bạn được nâng đỡ, tài lộc dồi dào, quý nhân phù trợ. Công việc thuận lợi, tình cảm hài hòa. Sức khỏe tốt, chú ý nghỉ ngơi.
+🪬 Bí kíp: Thử sức ý tưởng mới, làm từ thiện.
+🏡 Phong thủy: Đặt vật phẩm mệnh ${currentYearMenh} hướng Bắc.
+    `;
+  }
+
+  if (tuongSinh[currentYearMenh] === userMenh) {
+    return `
+☁️ Bình an vô sự ☁️
+Năm nay mệnh bạn ổn định, công việc trôi chảy, tài lộc đủ dùng. Tình cảm êm ấm, sức khỏe cần chú ý bệnh mùa.
+🪬 Bí kíp: Giữ cân bằng, cầu an ngày rằm.
+🏡 Phong thủy: Đặt vật phẩm mệnh ${userMenh} hướng Đông.
+    `;
+  }
+
+  if (tuongKhac[userMenh] === currentYearMenh) {
+    return `
+⚠️ Tương khắc thử thách ⚠️
+Năm nay gặp khó khăn, sự nghiệp trắc trở, tài lộc hao hụt. Tình cảm cần chân thành, sức khỏe chú ý stress.
+🪬 Bí kíp: Bình tĩnh, cúng sao giải hạn tháng 3 hoặc 7 âm.
+🏡 Phong thủy: Đặt vật phẩm hóa giải hướng Tây.
+    `;
+  }
+
+  return `
+⚖️ Vận mệnh cân bằng ⚖️
+Mọi việc ổn định, sự nghiệp tiến chậm, tài lộc bình thường. Tình cảm cần thấu hiểu, sức khỏe giữ bằng tập luyện.
+🪬 Bí kíp: Đặt mục tiêu rõ, thư giãn với thiền.
+🏡 Phong thủy: Đặt pha lê ở trung tâm nhà.
+  `;
 };
 
-// Thêm sao chiếu mệnh
 const getSaoChieuMenh = (lunarYear, gender) => {
   const saoNam = [
-    "La Hầu",
-    "Thổ Tú",
-    "Thủy Diệu",
-    "Thái Bạch",
-    "Thái Dương",
-    "Vân Hớn",
-    "Kế Đô",
-    "Thái Âm",
-    "Mộc Đức",
+    "La Hầu 🌑",
+    "Thổ Tú 🪨",
+    "Thủy Diệu 💧",
+    "Thái Bạch ⚪",
+    "Thái Dương ☀️",
+    "Vân Hớn 🔥",
+    "Kế Đô 🌪️",
+    "Thái Âm 🌙",
+    "Mộc Đức 🌳",
   ];
   const saoNu = [
-    "Kế Đô",
-    "Vân Hớn",
-    "Thổ Tú",
-    "Thái Âm",
-    "Thủy Diệu",
-    "La Hầu",
-    "Thái Bạch",
-    "Mộc Đức",
-    "Thái Dương",
+    "Kế Đô 🌪️",
+    "Vân Hớn 🔥",
+    "Thổ Tú 🪨",
+    "Thái Âm 🌙",
+    "Thủy Diệu 💧",
+    "La Hầu 🌑",
+    "Thái Bạch ⚪",
+    "Mộc Đức 🌳",
+    "Thái Dương ☀️",
   ];
-  const yearCycle = (lunarYear - 1924) % 9; // Chu kỳ 9 sao bắt đầu từ 1924
+  const yearCycle = (lunarYear - 1924) % 9;
   const saoList = gender === "male" ? saoNam : saoNu;
 
   const saoMeanings = {
-    "La Hầu": "Sao hung, dễ gặp thị phi, cần giữ miệng lưỡi.",
-    "Thổ Tú": "Sao trung, sức khỏe yếu, tránh xa tranh cãi.",
-    "Thủy Diệu": "Sao cát, tài lộc đến từ lời nói.",
-    "Thái Bạch": "Sao hung, hao tài tốn của, cẩn thận tiền bạc.",
-    "Thái Dương": "Sao cát, vượng phát sự nghiệp, đặc biệt với nam.",
-    "Vân Hớn": "Sao trung, tiểu nhân quấy phá, cần đề phòng.",
-    "Kế Đô": "Sao hung, buồn phiền, dễ gặp trắc trở.",
-    "Thái Âm": "Sao cát, hạnh phúc gia đạo, đặc biệt với nữ.",
-    "Mộc Đức": "Sao cát, may mắn, sức khỏe dồi dào.",
+    "La Hầu 🌑":
+      "Sao hung, dễ gặp thị phi, kiện tụng. Chú ý lời nói, sức khỏe đầu, mắt. 🪬 Bí kíp: Tránh tranh cãi, làm thiện. 🏡 Phong thủy: Đeo thạch anh đen.",
+    "Thổ Tú 🪨":
+      "Sao trung, trầm lắng, bất an. Gặp tiểu nhân, cô đơn. Chú ý tiêu hóa. 🪬 Bí kíp: Tránh thị phi, thiền. 🏡 Phong thủy: Đặt gốm sứ trong nhà.",
+    "Thủy Diệu 💧":
+      "Sao cát, tài lộc, giao tiếp tốt. Thuận lợi kinh doanh, đàm phán. Đề phòng tai nạn nước. 🪬 Bí kíp: Tận dụng cơ hội. 🏡 Phong thủy: Đeo ngọc trai.",
+    "Thái Bạch ⚪":
+      "Sao hung, hao tài. Dễ mất tiền, đầu tư không thuận. Chú ý hô hấp. 🪬 Bí kíp: Quản lý tài chính, làm thiện. 🏡 Phong thủy: Đặt đá trắng.",
+    "Thái Dương ☀️":
+      "Sao cát, sự nghiệp thăng hoa. Gặp quý nhân, công việc thuận. Tránh quá sức. 🪬 Bí kíp: Giữ khiêm tốn. 🏡 Phong thủy: Đặt đèn sáng hướng Đông.",
+    "Vân Hớn 🔥":
+      "Sao trung, dễ gặp tiểu nhân, bất hòa. Chú ý gan. 🪬 Bí kíp: Tránh tranh chấp. 🏡 Phong thủy: Đeo vòng gỗ đàn hương.",
+    "Kế Đô 🌪️":
+      "Sao hung, buồn phiền, trắc trở. Khó khăn công việc, tình cảm. Chú ý bệnh mãn tính. 🪬 Bí kíp: Làm thiện, cúng tháng 3. 🏡 Phong thủy: Đeo thạch anh tím.",
+    "Thái Âm 🌙":
+      "Sao cát, hạnh phúc gia đạo. May mắn tình cảm, hôn nhân. Tránh căng thẳng. 🪬 Bí kíp: Nuôi dưỡng quan hệ. 🏡 Phong thủy: Đặt thạch anh hồng hướng Tây.",
+    "Mộc Đức 🌳":
+      "Sao cát, may mắn, sức khỏe tốt. Thuận lợi học tập, dự án dài hạn. 🪬 Bí kíp: Đầu tư tri thức. 🏡 Phong thủy: Đặt cây xanh hướng Đông.",
   };
 
   const sao = saoList[yearCycle];
   return { name: sao, meaning: saoMeanings[sao] };
 };
 
-// Danh sách sao tốt cho từng hoạt động
 const activityStars = {
   "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
   "ket-hon": ["Ngưu", "Tất", "Tinh", "Đê", "Cơ"],

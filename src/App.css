@@ -1,3 +1,7 @@
+body {
+  font-family: "Montserrat", sans-serif !important; /* Font chữ chính */
+}
+
 .app-wrapper {
   background-image: url("/public/night.jpg") !important; /* Thay bằng URL hình nền sao hoặc hoa văn truyền thống */
   background-size: cover !important;
@@ -35,9 +39,9 @@
 }
 
 .fortune-input {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
   border: 1px solid #ffd700 !important;
-  color: #fff !important;
+  color: rgba(0, 0, 0, 0.8) !important;
   transition: all 0.3s ease !important;
 }
 
@@ -72,7 +76,6 @@
 
 .result-title {
   color: #00ced1 !important; /* Xanh ngọc */
-  font-family: "Noto Serif", serif !important;
 }
 
 .result-text {

@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <Container className="my-5 fortune-container">
-        <h1 className="text-center mb-4 h2 fortune-title">
+        <h1 className="text-center mb-4 fortune-title">
           Tướng Số Âm Lịch - Ngọc Hạp Thông Thư
         </h1>
         <DateInputForm

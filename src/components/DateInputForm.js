@@ -10,7 +10,18 @@ const DateInputForm = ({
 }) => {
   const handleSolarInputChange = (e) => {
     const { name, value } = e.target;
-    setSolarDate((prev) => ({ ...prev, [name]: value }));
+    if (name === "birthdate") {
+      // Parse the date string (YYYY-MM-DD) to update day, month, year
+      const date = new Date(value);
+      setSolarDate((prev) => ({
+        ...prev,
+        day: date.getDate().toString(),
+        month: (date.getMonth() + 1).toString(), // getMonth is 0-based
+        year: date.getFullYear().toString(),
+      }));
+    } else {
+      setSolarDate((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const activities = [
@@ -30,48 +41,12 @@ const DateInputForm = ({
               Ngày sinh (Dương lịch)
             </Form.Label>
             <Form.Control
-              type="number"
-              name="day"
-              value={solarDate.day}
+              type="date"
+              name="birthdate"
               onChange={handleSolarInputChange}
-              placeholder="Ví dụ: 15"
-              min="1"
-              max="31"
               className="fortune-input"
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Tháng sinh (Dương lịch)
-            </Form.Label>
-            <Form.Control
-              type="number"
-              name="month"
-              value={solarDate.month}
-              onChange={handleSolarInputChange}
-              placeholder="Ví dụ: 3"
-              min="1"
-              max="12"
-              className="fortune-input"
-            />
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Năm sinh (Dương lịch)
-            </Form.Label>
-            <Form.Control
-              type="number"
-              name="year"
-              value={solarDate.year}
-              onChange={handleSolarInputChange}
-              placeholder="Ví dụ: 1995"
-              min="1900"
-              max="2100"
-              className="fortune-input"
+              min="1900-01-01"
+              max="2100-12-31"
             />
           </Form.Group>
         </Col>
@@ -90,6 +65,8 @@ const DateInputForm = ({
             />
           </Form.Group>
         </Col>
+      </Row>
+      <Row>
         <Col>
           <Form.Group className="mb-3">
             <Form.Label className="form-label">Giới tính</Form.Label>
@@ -105,13 +82,9 @@ const DateInputForm = ({
             </Form.Select>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
         <Col>
           <Form.Group className="mb-3">
-            <Form.Label className="form-label">
-              Chọn việc cần xem ngày tốt
-            </Form.Label>
+            <Form.Label className="form-label">Chọn việc cần xem</Form.Label>
             <Form.Select
               value={activity}
               onChange={(e) => setActivity(e.target.value)}
