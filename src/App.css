@@ -3,7 +3,7 @@ body {
 }
 
 .app-wrapper {
-  background-image: url("/public/night.jpg") !important; /* Thay bằng URL hình nền sao hoặc hoa văn truyền thống */
+  background-image: url("/public/starry-night.jpg") !important; /* Thay bằng URL hình nền sao hoặc hoa văn truyền thống */
   background-size: cover !important;
   background-attachment: fixed !important;
   min-height: 100vh !important;
