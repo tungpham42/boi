@@ -434,21 +434,18 @@ function getConflictingElements(element) {
   return relationships[element] || [];
 }
 // Hàm tính Nhị Thập Bát Tú dựa trên ngày Âm lịch (hoàn chỉnh)
-export const getNhiThapBatTu = (lunarDay) => {
-  const index = (lunarDay - 1) % 28;
-  const starName = Object.keys(nhiThapBatTu)[index];
+export const getNhiThapBatTu = (lunarDay, lunarMonth) => {
+  const cycle = (lunarDay + lunarMonth - 2) % 28;
+  const starName = Object.keys(nhiThapBatTu)[cycle];
   const starData = nhiThapBatTu[starName];
 
   return {
     name: starName,
     ...starData,
-    position: index + 1,
-    // Thêm thông tin phong thủy nâng cao
+    position: cycle + 1,
     compatibleElements: getCompatibleElements(starData.element),
     conflictingElements: getConflictingElements(starData.element),
-    // Thêm thông tin về mùa phù hợp
     suitableSeason: getSuitableSeason(starData.constellation),
-    // Thông tin tổng hợp
     summary: `Sao ${starName} (${starData.constellation}) - ${starData.starType}: ${starData.meaning}`,
   };
 };
@@ -467,91 +464,73 @@ function getSuitableSeason(constellation) {
 // Gợi ý phong thủy
 export const phongThuyAdvice = {
   Mộc: {
-    meaning:
-      "Ngũ hành Mộc tượng trưng cho sự sinh trưởng, phát triển và sáng tạo.",
-    colors: ["Xanh lá cây", "Xanh lam nhạt"],
+    meaning: "Mộc tượng trưng cho sự sinh trưởng, sáng tạo.",
+    colors: ["Xanh lá", "Xanh lam"],
     direction: "Đông, Đông Nam",
-    items: ["Cây xanh", "Đồ nội thất gỗ", "Tranh ảnh cây cối", "Sổ sách"],
-    plants: ["Cây kim tiền", "Cây ngọc bích", "Cây trầu bà", "Cây lưỡi hổ"],
-    gemstones: ["Ngọc lục bảo", "Đá peridot", "Đá cẩm thạch xanh"],
-    suitablePlaces: ["Phòng học", "Phòng làm việc", "Khu vực sáng tạo"],
+    items: ["Cây xanh", "Đồ gỗ", "Tranh cây cối"],
+    plants: ["Kim tiền", "Ngọc bích", "Trầu bà"],
+    gemstones: ["Ngọc lục bảo", "Peridot"],
     tips: [
-      "Đặt cây xanh ở góc Đông hoặc Đông Nam để kích hoạt năng lượng Mộc.",
-      "Tránh sử dụng quá nhiều đồ kim loại trong không gian Mộc vì Kim khắc Mộc.",
-      "Sử dụng ánh sáng tự nhiên để tăng cường sự phát triển của năng lượng Mộc.",
-      "Giữ không gian thông thoáng, tránh lộn xộn để Mộc lưu thông tốt.",
+      "Đặt cây xanh hướng Đông để kích hoạt tài lộc.",
+      "Tránh đồ kim loại sắc nhọn vì Kim khắc Mộc.",
+      "Dùng ánh sáng tự nhiên để tăng sinh khí.",
+      "Giữ không gian thoáng, tránh lộn xộn.",
     ],
-    compatibleElements: ["Thủy (tương sinh)", "Hỏa (tương hỗ)"],
-    conflictingElements: ["Kim (tương khắc)", "Thổ (kị)"],
   },
   Hỏa: {
-    meaning: "Ngũ hành Hỏa tượng trưng cho đam mê, năng lượng và sự biến đổi.",
-    colors: ["Đỏ", "Hồng", "Cam", "Tím"],
+    meaning: "Hỏa tượng trưng cho đam mê, năng lượng.",
+    colors: ["Đỏ", "Hồng", "Cam"],
     direction: "Nam",
-    items: ["Đèn đỏ", "Nến", "Tranh mặt trời", "Vật phẩm hình tam giác"],
-    plants: ["Cây hồng môn", "Cây trạng nguyên", "Cây kim ngân", "Cây vạn lộc"],
-    gemstones: ["Hồng ngọc", "Thạch anh đỏ", "Đá mã não đỏ"],
-    suitablePlaces: ["Phòng khách", "Khu vực tụ họp", "Không gian sáng tạo"],
+    items: ["Đèn đỏ", "Nến", "Tranh mặt trời"],
+    plants: ["Hồng môn", "Trạng nguyên", "Vạn lộc"],
+    gemstones: ["Hồng ngọc", "Mã não đỏ"],
     tips: [
-      "Đặt một chiếc đèn đỏ hoặc nến ở hướng Nam để kích hoạt năng lượng Hỏa.",
-      "Hạn chế đặt bể cá hoặc gương lớn ở khu vực Hỏa vì Thủy khắc Hỏa.",
-      "Sử dụng ánh sáng ấm áp để tăng cường sự ấm cúng và đam mê.",
-      "Tránh lạm dụng màu đen hoặc xanh dương trong không gian Hỏa.",
+      "Đặt đèn đỏ hướng Nam để kích hoạt danh vọng.",
+      "Hạn chế bể cá vì Thủy khắc Hỏa.",
+      "Sử dụng ánh sáng ấm để tăng năng lượng.",
+      "Tránh màu đen hoặc xanh dương quá nhiều.",
     ],
-    compatibleElements: ["Mộc (tương sinh)", "Thổ (tương hỗ)"],
-    conflictingElements: ["Thủy (tương khắc)", "Kim (kị)"],
   },
   Thổ: {
-    meaning:
-      "Ngũ hành Thổ tượng trưng cho sự ổn định, nuôi dưỡng và đáng tin cậy.",
-    colors: ["Vàng", "Nâu đất", "Beige"],
-    direction: "Trung tâm, Đông Bắc, Tây Nam",
-    items: ["Đồ gốm", "Tượng đất nung", "Thảm màu nâu", "Đá tự nhiên"],
-    plants: ["Cây lan quân tử", "Cây sống đời", "Cây đa búp đỏ"],
-    gemstones: ["Thạch anh vàng", "Đá mắt hổ", "Ngọc bích vàng"],
-    suitablePlaces: ["Phòng ăn", "Phòng ngủ", "Khu vực trung tâm nhà"],
+    meaning: "Thổ tượng trưng cho sự ổn định, nuôi dưỡng.",
+    colors: ["Vàng", "Nâu", "Beige"],
+    direction: "Trung tâm, Đông Bắc",
+    items: ["Gốm sứ", "Đá tự nhiên", "Thảm nâu"],
+    plants: ["Lan quân tử", "Sống đời"],
+    gemstones: ["Thạch anh vàng", "Mắt hổ"],
     tips: [
-      "Đặt một bình gốm hoặc đá tự nhiên ở trung tâm nhà để củng cố năng lượng Thổ.",
-      "Tránh trồng quá nhiều cây xanh trong không gian Thổ vì Mộc khắc Thổ.",
-      "Sử dụng ánh sáng dịu nhẹ và đồ nội thất vuông vức để tăng cường sự ổn định.",
-      "Giữ khu vực trung tâm nhà sạch sẽ, không để đồ đạc lộn xộn.",
+      "Đặt gốm sứ ở trung tâm nhà để củng cố ổn định.",
+      "Tránh cây xanh quá nhiều vì Mộc khắc Thổ.",
+      "Dùng ánh sáng dịu, đồ vuông vức.",
+      "Giữ trung tâm nhà sạch sẽ, gọn gàng.",
     ],
-    compatibleElements: ["Hỏa (tương sinh)", "Kim (tương hỗ)"],
-    conflictingElements: ["Mộc (tương khắc)", "Thủy (kị)"],
   },
   Kim: {
-    meaning: "Ngũ hành Kim tượng trưng cho sự sắc sảo, rõ ràng và tinh tế.",
-    colors: ["Trắng", "Bạc", "Xám", "Vàng ánh kim"],
+    meaning: "Kim tượng trưng cho sự sắc sảo, tinh tế.",
+    colors: ["Trắng", "Bạc", "Vàng kim"],
     direction: "Tây, Tây Bắc",
-    items: ["Vật phẩm kim loại", "Đồng hồ", "Chuông gió", "Tượng đồng"],
-    plants: ["Cây bạch mã hoàng tử", "Cây lan ý", "Cây ngọc ngân"],
-    gemstones: ["Thạch anh trắng", "Đá mặt trăng", "Kim cương"],
-    suitablePlaces: ["Phòng làm việc", "Khu vực tài chính", "Phòng khách"],
+    items: ["Kim loại", "Chuông gió", "Tượng đồng"],
+    plants: ["Bạch mã", "Lan ý"],
+    gemstones: ["Thạch anh trắng", "Kim cương"],
     tips: [
-      "Treo chuông gió kim loại ở hướng Tây để kích hoạt năng lượng Kim.",
-      "Tránh sử dụng màu đỏ hoặc đồ trang trí hình tam giác vì Hỏa khắc Kim.",
-      "Sử dụng đồ nội thất hình tròn hoặc oval để tăng cường sự hài hòa.",
-      "Giữ các vật phẩm kim loại sạch sẽ, sáng bóng để duy trì năng lượng tích cực.",
+      "Treo chuông gió hướng Tây để kích hoạt tài lộc.",
+      "Tránh đồ đỏ hoặc hình tam giác vì Hỏa khắc Kim.",
+      "Dùng đồ hình tròn để tăng hài hòa.",
+      "Giữ vật kim loại sạch, sáng bóng.",
     ],
-    compatibleElements: ["Thổ (tương sinh)", "Thủy (tương hỗ)"],
-    conflictingElements: ["Hỏa (tương khắc)", "Mộc (kị)"],
   },
   Thủy: {
-    meaning:
-      "Ngũ hành Thủy tượng trưng cho sự linh hoạt, trí tuệ và dòng chảy.",
-    colors: ["Xanh dương", "Đen", "Xanh đậm"],
+    meaning: "Thủy tượng trưng cho trí tuệ, linh hoạt.",
+    colors: ["Xanh dương", "Đen"],
     direction: "Bắc",
-    items: ["Bể cá", "Gương", "Đài phun nước", "Tranh sông nước"],
-    plants: ["Cây thủy sinh", "Cây lan bình rượu", "Cây phát tài"],
-    gemstones: ["Thạch anh đen", "Đá aquamarine", "Ngọc trai"],
-    suitablePlaces: ["Phòng tắm", "Khu vực nghỉ ngơi", "Phòng thiền"],
+    items: ["Bể cá", "Gương", "Tranh sông nước"],
+    plants: ["Thủy sinh", "Phát tài"],
+    gemstones: ["Thạch anh đen", "Aquamarine"],
     tips: [
-      "Đặt bể cá nhỏ hoặc đài phun nước ở hướng Bắc để kích hoạt năng lượng Thủy.",
-      "Hạn chế sử dụng màu vàng hoặc đồ gốm trong khu vực Thủy vì Thổ khắc Thủy.",
-      "Sử dụng ánh sáng dịu và các đường nét uốn lượn để tăng cường dòng chảy.",
-      "Tránh để nước đọng hoặc bẩn, vì điều này làm cản trở năng lượng Thủy.",
+      "Đặt bể cá hướng Bắc để kích hoạt trí tuệ.",
+      "Hạn chế đồ gốm vì Thổ khắc Thủy.",
+      "Dùng ánh sáng dịu, đường nét uốn lượn.",
+      "Giữ nước sạch, tránh nước đọng.",
     ],
-    compatibleElements: ["Kim (tương sinh)", "Mộc (tương hỗ)"],
-    conflictingElements: ["Thổ (tương khắc)", "Hỏa (kị)"],
   },
 };
