@@ -58,14 +58,14 @@ export const lucDieu = {
   },
 };
 
-// Hàm tính Lục Diệu dựa trên ngày Âm lịch (cập nhật)
-export const getLucDieu = (lunarDay) => {
-  const index = (lunarDay - 1) % 6;
-  const starName = Object.keys(lucDieu)[index];
+// Hàm tính Lục Diệu
+export const getLucDieu = (lunarDay, lunarMonth) => {
+  const cycle = (lunarDay + lunarMonth - 2) % 6;
+  const starName = Object.keys(lucDieu)[cycle];
   return {
     name: starName,
     ...lucDieu[starName],
-    position: index + 1,
+    position: cycle + 1,
   };
 };
 
@@ -433,7 +433,7 @@ function getConflictingElements(element) {
   };
   return relationships[element] || [];
 }
-// Hàm tính Nhị Thập Bát Tú dựa trên ngày Âm lịch (hoàn chỉnh)
+// Hàm tính Nhị Thập Bát Tú
 export const getNhiThapBatTu = (lunarDay, lunarMonth) => {
   const cycle = (lunarDay + lunarMonth - 2) % 28;
   const starName = Object.keys(nhiThapBatTu)[cycle];
