@@ -534,3 +534,457 @@ export const phongThuyAdvice = {
     ],
   },
 };
+
+// Định nghĩa 12 Trực
+export const truc = {
+  Kiến: {
+    meaning: "Tốt cho khởi sự, xây dựng, nhưng cần cẩn thận tranh chấp.",
+    suitable: ["Xây dựng", "Khai trương", "Ký kết"],
+    avoid: ["Kiện tụng", "Tranh cãi"],
+    element: "Mộc",
+    color: "Xanh lá",
+    daoType: "Thanh Long Hoàng Đạo",
+  },
+  Trừ: {
+    meaning: "Tốt cho dọn dẹp, loại bỏ cái cũ, chữa bệnh.",
+    suitable: ["Dọn dẹp", "Sửa chữa", "Chữa bệnh"],
+    avoid: ["Khởi sự mới", "Kết hôn"],
+    element: "Thủy",
+    color: "Xanh dương",
+    daoType: "Minh Đường Hoàng Đạo",
+  },
+  Mãn: {
+    meaning: "Tốt cho cầu tài, tích lũy, nhưng kỵ xuất hành xa.",
+    suitable: ["Cầu tài", "Tích trữ", "Mua sắm"],
+    avoid: ["Xuất hành", "Đi xa"],
+    element: "Thổ",
+    color: "Vàng",
+    daoType: "Thiên Hình Hắc Đạo",
+  },
+  Bình: {
+    meaning: "Tốt cho mọi việc, đặc biệt là lập kế hoạch.",
+    suitable: ["Lập kế hoạch", "Kết hôn", "Giao dịch", "Xuất hành"],
+    avoid: [],
+    element: "Kim",
+    color: "Trắng",
+    daoType: "Chu Tước Hắc Đạo",
+  },
+  Định: {
+    meaning: "Tốt cho ký kết, đàm phán, nhưng kỵ kiện tụng.",
+    suitable: ["Ký kết", "Đàm phán", "Kết hôn", "Nhập trạch"],
+    avoid: ["Kiện tụng", "Tranh chấp"],
+    element: "Hỏa",
+    color: "Đỏ",
+    daoType: "Kim Quỹ Hoàng Đạo",
+  },
+  Chấp: {
+    meaning: "Tốt cho xây dựng, sửa chữa, nhưng kỵ khởi sự lớn.",
+    suitable: ["Xây dựng", "Sửa chữa", "Mua sắm nhỏ"],
+    avoid: ["Khai trương", "Kết hôn"],
+    element: "Thổ",
+    color: "Vàng",
+    daoType: "Thiên Lao Hắc Đạo",
+  },
+  Phá: {
+    meaning: "Xấu cho hầu hết mọi việc, chỉ tốt cho phá dỡ.",
+    suitable: ["Phá dỡ", "Chữa bệnh"],
+    avoid: ["Khởi sự", "Kết hôn", "Xuất hành"],
+    element: "Hỏa",
+    color: "Đỏ",
+    warning: "Ngày xấu, nên hạn chế hoạt động quan trọng.",
+    daoType: "Huyền Vũ Hắc Đạo",
+  },
+  Nguy: {
+    meaning: "Xấu, dễ gặp nguy hiểm, chỉ nên nghỉ ngơi.",
+    suitable: ["Nghỉ ngơi", "Thiền định"],
+    avoid: ["Mọi việc quan trọng", "Xuất hành"],
+    element: "Thủy",
+    color: "Xanh dương",
+    warning: "Ngày rất xấu, nên tránh hoạt động lớn.",
+    daoType: "Tư Mệnh Hoàng Đạo",
+  },
+  Thành: {
+    meaning: "Tốt cho hoàn thành công việc, cưới hỏi.",
+    suitable: ["Kết hôn", "Khai trương", "Hoàn thành dự án"],
+    avoid: ["Phá dỡ", "Kiện tụng"],
+    element: "Mộc",
+    color: "Xanh lá",
+    daoType: "Ngọc Đường Hoàng Đạo",
+  },
+  Thâu: {
+    meaning: "Tốt cho thu hoạch, tích lũy, nhưng kỵ xuất hành.",
+    suitable: ["Thu hoạch", "Tích lũy"],
+    avoid: ["Xuất hành", "Đi xa"],
+    element: "Kim",
+    color: "Trắng",
+    daoType: "Thiên Ngục Hắc Đạo",
+  },
+  Khai: {
+    meaning: "Tốt cho mọi việc, đặc biệt khai trương, khởi sự.",
+    suitable: ["Khai trương", "Khởi sự", "Kết hôn", "Xuất hành"],
+    avoid: ["An táng"],
+    element: "Thủy",
+    color: "Xanh dương",
+    daoType: "Thanh Long Hoàng Đạo",
+  },
+  Bế: {
+    meaning: "Tốt cho kết thúc, cất giữ, nhưng kỵ khởi sự mới.",
+    suitable: ["Kết thúc dự án", "Cất giữ"],
+    avoid: ["Khởi sự", "Khai trương"],
+    element: "Thổ",
+    color: "Vàng",
+    daoType: "Câu Trần Hắc Đạo",
+  },
+};
+
+// Định nghĩa 24 Tiết khí
+export const tietKhi = {
+  "Lập Xuân": {
+    meaning: "Bắt đầu mùa xuân, vạn vật khởi sinh.",
+    suitable: ["Khởi sự", "Gieo trồng", "Cầu phúc"],
+    avoid: ["Phá dỡ", "An táng"],
+    season: "Xuân",
+    element: "Mộc",
+  },
+  "Vũ Thủy": {
+    meaning: "Mưa rơi, đất trời ẩm ướt, thích hợp gieo trồng.",
+    suitable: ["Gieo trồng", "Tưới tiêu"],
+    avoid: ["Xây dựng", "Động thổ"],
+    season: "Xuân",
+    element: "Thủy",
+  },
+  "Kinh Trập": {
+    meaning: "Côn trùng tỉnh giấc, mùa xuân trỗi dậy.",
+    suitable: ["Khởi công", "Cầu tài"],
+    avoid: ["Kiện tụng"],
+    season: "Xuân",
+    element: "Mộc",
+  },
+  "Xuân Phân": {
+    meaning: "Ngày và đêm bằng nhau, cân bằng âm dương.",
+    suitable: ["Kết hôn", "Ký kết", "Hòa giải"],
+    avoid: ["Phá dỡ"],
+    season: "Xuân",
+    element: "Thổ",
+  },
+  "Thanh Minh": {
+    meaning: "Trời trong sáng, tốt cho cúng bái tổ tiên.",
+    suitable: ["Cúng bái", "An táng", "Sửa mộ"],
+    avoid: ["Khai trương"],
+    season: "Xuân",
+    element: "Mộc",
+  },
+  "Cốc Vũ": {
+    meaning: "Mưa phùn, tốt cho mùa màng.",
+    suitable: ["Gieo trồng", "Cầu phúc"],
+    avoid: ["Xuất hành xa"],
+    season: "Xuân",
+    element: "Thủy",
+  },
+  "Lập Hạ": {
+    meaning: "Bắt đầu mùa hè, thời tiết ấm áp.",
+    suitable: ["Khởi sự", "Xây dựng"],
+    avoid: ["An táng"],
+    season: "Hạ",
+    element: "Hỏa",
+  },
+  "Tiểu Mãn": {
+    meaning: "Cây cối bắt đầu kết trái, mùa màng phát triển.",
+    suitable: ["Thu hoạch nhỏ", "Cầu tài"],
+    avoid: ["Động thổ lớn"],
+    season: "Hạ",
+    element: "Thổ",
+  },
+  "Mang Chủng": {
+    meaning: "Thời điểm gieo hạt, mùa màng bận rộn.",
+    suitable: ["Gieo trồng", "Làm nông"],
+    avoid: ["Kết hôn"],
+    season: "Hạ",
+    element: "Thủy",
+  },
+  "Hạ Chí": {
+    meaning: "Ngày dài nhất, dương khí mạnh mẽ.",
+    suitable: ["Cầu tài", "Khởi công"],
+    avoid: ["Sửa mộ"],
+    season: "Hạ",
+    element: "Hỏa",
+  },
+  "Tiểu Thử": {
+    meaning: "Thời tiết bắt đầu nóng, mùa hè rõ rệt.",
+    suitable: ["Mua sắm", "Giao dịch"],
+    avoid: ["Xây dựng lớn"],
+    season: "Hạ",
+    element: "Hỏa",
+  },
+  "Đại Thử": {
+    meaning: "Nắng nóng đỉnh điểm, cần chú ý sức khỏe.",
+    suitable: ["Nghỉ ngơi", "Cầu phúc"],
+    avoid: ["Khởi sự lớn"],
+    season: "Hạ",
+    element: "Hỏa",
+  },
+  "Lập Thu": {
+    meaning: "Bắt đầu mùa thu, thời tiết mát mẻ.",
+    suitable: ["Khởi sự", "Kết hôn"],
+    avoid: ["Phá dỡ"],
+    season: "Thu",
+    element: "Kim",
+  },
+  "Xử Thử": {
+    meaning: "Hết nóng, thời tiết dễ chịu.",
+    suitable: ["Xuất hành", "Giao dịch"],
+    avoid: ["An táng"],
+    season: "Thu",
+    element: "Kim",
+  },
+  "Bạch Lộ": {
+    meaning: "Sương trắng xuất hiện, thời tiết lạnh dần.",
+    suitable: ["Cầu phúc", "Học hành"],
+    avoid: ["Động thổ"],
+    season: "Thu",
+    element: "Thủy",
+  },
+  "Thu Phân": {
+    meaning: "Ngày và đêm bằng nhau, âm dương hòa hợp.",
+    suitable: ["Kết hôn", "Ký kết", "Hòa giải"],
+    avoid: ["Kiện tụng"],
+    season: "Thu",
+    element: "Thổ",
+  },
+  "Hàn Lộ": {
+    meaning: "Sương lạnh xuất hiện, thời tiết se lạnh.",
+    suitable: ["Thu hoạch", "Cất giữ"],
+    avoid: ["Xuất hành xa"],
+    season: "Thu",
+    element: "Thủy",
+  },
+  "Sương Giáng": {
+    meaning: "Sương mù dày đặc, trời lạnh rõ rệt.",
+    suitable: ["Nghỉ ngơi", "Dọn dẹp"],
+    avoid: ["Khởi sự lớn"],
+    season: "Thu",
+    element: "Thủy",
+  },
+  "Lập Đông": {
+    meaning: "Bắt đầu mùa đông, thời tiết lạnh giá.",
+    suitable: ["Cất giữ", "Kết thúc dự án"],
+    avoid: ["Khởi sự mới"],
+    season: "Đông",
+    element: "Thủy",
+  },
+  "Tiểu Tuyết": {
+    meaning: "Tuyết nhẹ rơi, thời tiết lạnh hơn.",
+    suitable: ["Học hành", "Nghiên cứu"],
+    avoid: ["Xuất hành xa"],
+    season: "Đông",
+    element: "Thủy",
+  },
+  "Đại Tuyết": {
+    meaning: "Tuyết dày, mùa đông khắc nghiệt.",
+    suitable: ["Nghỉ ngơi", "Cầu phúc"],
+    avoid: ["Khởi sự lớn"],
+    season: "Đông",
+    element: "Thủy",
+  },
+  "Đông Chí": {
+    meaning: "Ngày ngắn nhất, âm khí mạnh mẽ.",
+    suitable: ["Cúng bái", "Sửa mộ"],
+    avoid: ["Kết hôn"],
+    season: "Đông",
+    element: "Thủy",
+  },
+  "Tiểu Hàn": {
+    meaning: "Lạnh nhẹ, mùa đông sâu sắc.",
+    suitable: ["Dọn dẹp", "Kết thúc"],
+    avoid: ["Khởi sự mới"],
+    season: "Đông",
+    element: "Thủy",
+  },
+  "Đại Hàn": {
+    meaning: "Lạnh giá đỉnh điểm, cần giữ ấm.",
+    suitable: ["Nghỉ ngơi", "Cầu phúc"],
+    avoid: ["Khởi sự lớn"],
+    season: "Đông",
+    element: "Thủy",
+  },
+};
+
+// Hàm tính Trực
+export const getTruc = (lunarDay, lunarMonth) => {
+  const trucOrder = [
+    "Kiến",
+    "Trừ",
+    "Mãn",
+    "Bình",
+    "Định",
+    "Chấp",
+    "Phá",
+    "Nguy",
+    "Thành",
+    "Thâu",
+    "Khai",
+    "Bế",
+  ];
+  const cycle = (lunarDay + lunarMonth - 2) % 12;
+  const trucName = trucOrder[cycle];
+  return {
+    name: trucName,
+    ...truc[trucName],
+    position: cycle + 1,
+  };
+};
+
+// Hàm tính Tiết khí
+export const getTietKhi = (solarDate) => {
+  const day = solarDate.getDate();
+  const month = solarDate.getMonth() + 1;
+  const tietKhiOrder = [
+    { name: "Lập Xuân", month: 2, day: 4 },
+    { name: "Vũ Thủy", month: 2, day: 19 },
+    { name: "Kinh Trập", month: 3, day: 5 },
+    { name: "Xuân Phân", month: 3, day: 20 },
+    { name: "Thanh Minh", month: 4, day: 4 },
+    { name: "Cốc Vũ", month: 4, day: 20 },
+    { name: "Lập Hạ", month: 5, day: 5 },
+    { name: "Tiểu Mãn", month: 5, day: 21 },
+    { name: "Mang Chủng", month: 6, day: 5 },
+    { name: "Hạ Chí", month: 6, day: 21 },
+    { name: "Tiểu Thử", month: 7, day: 7 },
+    { name: "Đại Thử", month: 7, day: 23 },
+    { name: "Lập Thu", month: 8, day: 7 },
+    { name: "Xử Thử", month: 8, day: 23 },
+    { name: "Bạch Lộ", month: 9, day: 7 },
+    { name: "Thu Phân", month: 9, day: 23 },
+    { name: "Hàn Lộ", month: 10, day: 8 },
+    { name: "Sương Giáng", month: 10, day: 23 },
+    { name: "Lập Đông", month: 11, day: 7 },
+    { name: "Tiểu Tuyết", month: 11, day: 22 },
+    { name: "Đại Tuyết", month: 12, day: 7 },
+    { name: "Đông Chí", month: 12, day: 21 },
+    { name: "Tiểu Hàn", month: 1, day: 5 },
+    { name: "Đại Hàn", month: 1, day: 20 },
+  ];
+
+  let closestTietKhi = null;
+  let minDiff = Infinity;
+  const inputDate = new Date(solarDate.getFullYear(), month - 1, day);
+
+  for (const tk of tietKhiOrder) {
+    const tkDate = new Date(solarDate.getFullYear(), tk.month - 1, tk.day);
+    const diff = Math.abs(inputDate - tkDate);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestTietKhi = tk.name;
+    }
+  }
+
+  return {
+    name: closestTietKhi,
+    ...tietKhi[closestTietKhi],
+  };
+};
+
+export const getHoangHacDao = (lunarDay, lunarMonth, solarDate) => {
+  const lucDieuData = getLucDieu(lunarDay, lunarMonth);
+  const nhiThapBatTuData = getNhiThapBatTu(lunarDay, lunarMonth);
+  const trucData = getTruc(lunarDay, lunarMonth);
+  const tietKhiData = getTietKhi(solarDate);
+
+  const goodLucDieu = ["Đại An", "Tốc Hỷ", "Tiểu Cát"];
+  const badLucDieu = ["Không Vong", "Xích Khẩu"];
+  const goodTruc = ["Khai", "Thành", "Bình", "Định", "Kiến", "Trừ"];
+  const badTruc = ["Phá", "Nguy", "Chấp", "Thâu", "Bế"];
+  const hoangDaoTruc = [
+    "Thanh Long Hoàng Đạo",
+    "Minh Đường Hoàng Đạo",
+    "Kim Quỹ Hoàng Đạo",
+    "Ngọc Đường Hoàng Đạo",
+    "Tư Mệnh Hoàng Đạo",
+  ];
+  const hacDaoTruc = [
+    "Thiên Hình Hắc Đạo",
+    "Chu Tước Hắc Đạo",
+    "Thiên Lao Hắc Đạo",
+    "Huyền Vũ Hắc Đạo",
+    "Thiên Ngục Hắc Đạo",
+    "Câu Trần Hắc Đạo",
+  ];
+  const goodStars = ["Bích", "Vị", "Đê", "Cơ"];
+  const badStars = ["Nữ", "Hư", "Chủy", "Quỷ", "Liễu", "Dực", "Tâm"];
+
+  let score = 0;
+
+  // Đánh giá Lục Diệu
+  if (goodLucDieu.includes(lucDieuData.name)) score += 2;
+  if (badLucDieu.includes(lucDieuData.name)) score -= 2;
+
+  // Đánh giá Nhị Thập Bát Tú
+  if (goodStars.includes(nhiThapBatTuData.name)) score += 2;
+  if (badStars.includes(nhiThapBatTuData.name)) score -= 2;
+  if (nhiThapBatTuData.starType === "Đại cát") score += 1;
+  if (
+    nhiThapBatTuData.starType === "Hung tinh" ||
+    nhiThapBatTuData.starType === "Đại hung"
+  )
+    score -= 1;
+
+  // Đánh giá Trực
+  if (goodTruc.includes(trucData.name)) score += 2;
+  if (badTruc.includes(trucData.name)) score -= 2;
+  if (hoangDaoTruc.includes(trucData.daoType)) score += 1; // Ưu tiên Hoàng Đạo
+  if (hacDaoTruc.includes(trucData.daoType)) score -= 1; // Ưu tiên Hoàng Đạo
+
+  // Đánh giá Tiết Khí
+  if (
+    [
+      "Lập Xuân",
+      "Xuân Phân",
+      "Lập Hạ",
+      "Hạ Chí",
+      "Lập Thu",
+      "Thu Phân",
+      "Lập Đông",
+    ].includes(tietKhiData.name)
+  ) {
+    score += 1;
+  }
+
+  // Kiểm tra tương hợp ngũ hành
+  const compatibleElements = {
+    Mộc: ["Hỏa", "Thủy"],
+    Hỏa: ["Thổ", "Mộc"],
+    Thổ: ["Kim", "Hỏa"],
+    Kim: ["Thủy", "Thổ"],
+    Thủy: ["Mộc", "Kim"],
+  };
+  if (
+    compatibleElements[trucData.element]?.includes(nhiThapBatTuData.element)
+  ) {
+    score += 1;
+  }
+  if (
+    ["Kim", "Hỏa"].includes(trucData.element) &&
+    ["Mộc", "Thủy"].includes(nhiThapBatTuData.element)
+  ) {
+    score -= 1; // Tương khắc giảm điểm
+  }
+
+  const isHoangDao = score >= 2;
+  const daoType = trucData.daoType || (isHoangDao ? "Hoàng Đạo" : "Hắc Đạo");
+  const description = isHoangDao
+    ? `Ngày ${daoType}: Tốt cho các việc quan trọng như kết hôn, khai trương, xuất hành.`
+    : `Ngày ${daoType}: Nên cẩn thận, tránh các việc lớn như khởi sự, kết hôn.`;
+
+  return {
+    type: isHoangDao ? "Hoàng Đạo" : "Hắc Đạo",
+    daoType: daoType,
+    score: score,
+    description: description,
+    details: {
+      lucDieu: lucDieuData.name,
+      nhiThapBatTu: nhiThapBatTuData.name,
+      truc: trucData.name,
+      tietKhi: tietKhiData.name,
+    },
+  };
+};

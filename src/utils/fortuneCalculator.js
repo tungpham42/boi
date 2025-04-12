@@ -6,10 +6,14 @@ import {
   phongThuyAdvice,
   getLucDieu,
   getNhiThapBatTu,
+  truc,
+  getTruc,
+  getTietKhi,
+  getHoangHacDao,
 } from "../data/ngocHapData";
 
 const activities = [
-  { value: "", label: "Tất cả" },
+  { value: "", label: "Tất cả 🌌" },
   { value: "xay-dung", label: "Xây dựng 🏡" },
   { value: "ket-hon", label: "Kết hôn 💍" },
   { value: "xuat-hanh", label: "Xuất hành ✈️" },
@@ -53,13 +57,21 @@ export const calculateFortune = (solarDate, activity) => {
   const cungMenh = calculateCungMenh(year, gender, hourBranch);
   const lucDieuResult = getLucDieu(lunar.lDay, lunar.lMonth);
   const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay, lunar.lMonth);
+  const trucResult = getTruc(lunar.lDay, lunar.lMonth);
+  const tietKhiResult = getTietKhi(new Date(year, month - 1, day));
+  const hoangHacDaoResult = getHoangHacDao(
+    lunar.lDay,
+    lunar.lMonth,
+    new Date(year, month - 1, day)
+  );
   const saoChieuMenh = getSaoChieuMenh(lunar.lYear, gender, lunar.lMonth);
   const thaiTue = calculateThaiTue(currentYear, lunar.lYear);
   const tamTai = calculateTamTai(lunar.lYear);
   const dayRecommendations = recommendGoodBadDays(
     lunar.lDay,
     lunar.lMonth,
-    activity
+    activity,
+    new Date(year, month - 1, day)
   );
   const goodDaysCurrentYear = predictGoodDaysInCurrentYear(
     activity,
@@ -73,6 +85,8 @@ export const calculateFortune = (solarDate, activity) => {
     ...new Set([
       ...(lucDieuResult.suitable || []),
       ...(nhiThapBatTuResult.suitable || []),
+      ...(trucResult.suitable || []),
+      ...(tietKhiResult.suitable || []),
     ]),
   ].filter(
     (act) =>
@@ -82,6 +96,8 @@ export const calculateFortune = (solarDate, activity) => {
     ...new Set([
       ...(lucDieuResult.avoid || []),
       ...(nhiThapBatTuResult.avoid || []),
+      ...(trucResult.avoid || []),
+      ...(tietKhiResult.avoid || []),
     ]),
   ].filter(
     (act) =>
@@ -102,6 +118,11 @@ export const calculateFortune = (solarDate, activity) => {
 🌟 Lục Diệu: ${lucDieuResult.name} (${lucDieu[lucDieuResult.name].meaning})
 🌌 Nhị Thập Bát Tú: ${nhiThapBatTuResult.name} (${
     nhiThapBatTu[nhiThapBatTuResult.name].meaning
+  })
+🛠️ Trực: ${trucResult.name} (${truc[trucResult.name].meaning})
+🌦️ Tiết khí: ${tietKhiResult.name} (${tietKhiResult.meaning})
+☯️ Hoàng đạo/Hắc đạo: ${hoangHacDaoResult.daoType} (${
+    hoangHacDaoResult.description
   })
 ✅ Nên làm: ${combinedSuitable.join(", ") || "Không có"}
 🚫 Tránh: ${combinedAvoid.join(", ") || "Không có"}
@@ -129,11 +150,142 @@ ${
         .join("\n")
     : "Không tìm thấy ngày phù hợp trong thời gian gần đây"
 }
-  `;
+`;
 
   return { result: fortune, lunarDate: lunar };
 };
 
+// Cập nhật hàm recommendGoodBadDays
+const recommendGoodBadDays = (
+  lunarDay,
+  lunarMonth,
+  selectedActivity,
+  solarDate
+) => {
+  const lucDieuResult = getLucDieu(lunarDay, lunarMonth).name;
+  const nhiThapBatTuResult = getNhiThapBatTu(lunarDay, lunarMonth).name;
+  const trucResult = getTruc(lunarDay, lunarMonth);
+  const tietKhiResult = getTietKhi(solarDate).name;
+  const hoangHacDaoResult = getHoangHacDao(lunarDay, lunarMonth, solarDate);
+  const goodLucDieu = ["Đại An", "Tốc Hỷ", "Tiểu Cát"];
+  const goodTruc = ["Khai", "Thành", "Bình", "Định"];
+  const goodStars = {
+    "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
+    "ket-hon": ["Ngưu", "Tất", "Tinh", "Đê", "Cơ"],
+    "xuat-hanh": ["Thất", "Phòng", "Chẩn"],
+    "an-tang": ["Hư", "Liễu"],
+  };
+  const goodTietKhi = {
+    "xay-dung": ["Lập Xuân", "Lập Hạ", "Lập Thu"],
+    "ket-hon": ["Xuân Phân", "Thu Phân", "Lập Thu"],
+    "xuat-hanh": ["Xử Thử", "Bạch Lộ"],
+    "an-tang": ["Thanh Minh", "Đông Chí"],
+  };
+  const goodDaoType = {
+    "xay-dung": ["Thanh Long Hoàng Đạo", "Ngọc Đường Hoàng Đạo"],
+    "ket-hon": ["Ngọc Đường Hoàng Đạo", "Kim Quỹ Hoàng Đạo"],
+    "xuat-hanh": ["Thanh Long Hoàng Đạo", "Minh Đường Hoàng Đạo"],
+    "an-tang": ["Tư Mệnh Hoàng Đạo"],
+  };
+
+  let advice = "";
+  const activitiesToCheck = selectedActivity
+    ? [selectedActivity]
+    : Object.keys(goodStars);
+
+  activitiesToCheck.forEach((act) => {
+    const isGoodStar = goodStars[act]?.includes(nhiThapBatTuResult);
+    const isGoodTruc = goodTruc.includes(trucResult.name);
+    const isGoodTietKhi = goodTietKhi[act]?.includes(tietKhiResult);
+    const isGoodDaoType = goodDaoType[act]?.includes(trucResult.daoType);
+    const isGood =
+      isGoodStar &&
+      goodLucDieu.includes(lucDieuResult) &&
+      isGoodTruc &&
+      isGoodTietKhi &&
+      isGoodDaoType &&
+      hoangHacDaoResult.type === "Hoàng Đạo";
+    advice += `${getLabelByValue(act)}: ${isGood ? "Tốt ✅" : "Xấu 🚫"}, `;
+  });
+
+  advice = advice.replace(/, $/, ".") || "🔍 Chưa rõ, hãy chọn ngày cẩn thận!";
+  return advice;
+};
+
+// Cập nhật hàm predictGoodDaysInCurrentYear
+const predictGoodDaysInCurrentYear = (
+  selectedActivity,
+  currentDate,
+  userMenh
+) => {
+  const goodDays = [];
+  const startDate = new Date(currentDate);
+  const activityStars = {
+    "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
+    "ket-hon": ["Ngưu", "Tất", "Tinh", "Đê", "Cơ"],
+    "xuat-hanh": ["Thất", "Phòng", "Chẩn"],
+    "an-tang": ["Hư", "Liễu"],
+  };
+  const goodTruc = ["Khai", "Thành", "Bình", "Định"];
+  const badDays = ["Nữ", "Hư", "Chủy", "Quỷ", "Liễu", "Dực", "Tâm"];
+  const activityTietKhi = {
+    "xay-dung": ["Lập Xuân", "Lập Hạ", "Lập Thu"],
+    "ket-hon": ["Xuân Phân", "Thu Phân", "Lập Thu"],
+    "xuat-hanh": ["Xử Thử", "Bạch Lộ"],
+    "an-tang": ["Thanh Minh", "Đông Chí"],
+  };
+
+  for (let i = 0; i < 90; i++) {
+    const nextDate = new Date(startDate);
+    nextDate.setDate(startDate.getDate() + i);
+    const lunar = solarlunar.solar2lunar(
+      nextDate.getFullYear(),
+      nextDate.getMonth() + 1,
+      nextDate.getDate()
+    );
+    const lucDieuResult = getLucDieu(lunar.lDay, lunar.lMonth).name;
+    const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay, lunar.lMonth).name;
+    const trucResult = getTruc(lunar.lDay, lunar.lMonth).name;
+    const tietKhiResult = getTietKhi(nextDate).name;
+    const hoangHacDaoResult = getHoangHacDao(
+      lunar.lDay,
+      lunar.lMonth,
+      nextDate
+    );
+
+    const isGoodDay = !badDays.includes(nhiThapBatTuResult);
+    const isGoodTruc = goodTruc.includes(trucResult);
+    const isGoodTietKhi =
+      !selectedActivity ||
+      activityTietKhi[selectedActivity]?.includes(tietKhiResult);
+
+    if (
+      ["Đại An", "Tốc Hỷ", "Tiểu Cát"].includes(lucDieuResult) &&
+      isGoodDay &&
+      isGoodTruc &&
+      isGoodTietKhi &&
+      hoangHacDaoResult.type === "Hoàng đạo" &&
+      (!selectedActivity ||
+        activityStars[selectedActivity]?.includes(nhiThapBatTuResult)) &&
+      isMenhCompatible(userMenh, lunar.lDay, lunar.lMonth)
+    ) {
+      goodDays.push({
+        date: `${lunar.lDay}/${lunar.lMonth}/${
+          lunar.lYear
+        } (Âm) - ${nextDate.toLocaleDateString("vi-VN")}`,
+        recommendation: recommendGoodBadDays(
+          lunar.lDay,
+          lunar.lMonth,
+          selectedActivity,
+          nextDate
+        ),
+      });
+    }
+  }
+  return goodDays.slice(0, 5);
+};
+
+// Giữ nguyên các hàm khác
 const calculateThaiTue = (currentYear, birthYear) => {
   const earthlyBranches = [
     "Tý",
@@ -152,7 +304,6 @@ const calculateThaiTue = (currentYear, birthYear) => {
   const yearBranchIndex = (currentYear - 1864) % 12;
   const birthBranchIndex = (birthYear - 1864) % 12;
 
-  // Thái Tuế: Năm tuổi, xung, hình, hại
   const thaiTueStatus = {
     same: [
       "Tý",
@@ -302,7 +453,6 @@ const calculateTamTai = (birthYear) => {
   };
 };
 
-// Các hàm hỗ trợ giữ nguyên, chỉ điều chỉnh giao diện nếu cần
 const getHourBranch = (hour) => {
   const hourNum = parseInt(hour);
   const branches = [
@@ -336,13 +486,12 @@ const calculateCungMenh = (year, gender, hourBranch) => {
           .reduce((acc, digit) => acc + parseInt(digit), 0)
       : sum;
 
-  // Điều chỉnh theo bảng Cửu Trạch
   cungNum =
     gender === "male" ? (10 - cungNum) % 9 || 9 : (cungNum + 5) % 9 || 9;
 
   const cungMap = {
     male: [
-      "", // 0
+      "",
       "Khảm 💧 (Bắc, hợp cầu tài)",
       "Ly 🔥 (Nam, hợp danh vọng)",
       "Cấn 🏔️ (Đông Bắc, hợp ổn định)",
@@ -354,7 +503,7 @@ const calculateCungMenh = (year, gender, hourBranch) => {
       "Trung cung (Tâm nhà, cân bằng)",
     ],
     female: [
-      "", // 0
+      "",
       "Càn ☁️ (Tây Bắc, hợp quyền lực)",
       "Đoài 🪞 (Tây, hợp giao tiếp)",
       "Khôn 🌾 (Tây Nam, hợp gia đạo)",
@@ -371,87 +520,6 @@ const calculateCungMenh = (year, gender, hourBranch) => {
   return baseCung;
 };
 
-const recommendGoodBadDays = (lunarDay, lunarMonth, selectedActivity) => {
-  const lucDieuResult = getLucDieu(lunarDay, lunarMonth).name;
-  const nhiThapBatTuResult = getNhiThapBatTu(lunarDay, lunarMonth).name;
-  const goodLucDieu = ["Đại An", "Tốc Hỷ", "Tiểu Cát"];
-  const activityStars = {
-    "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
-    "ket-hon": ["Ngưu", "Tất", "Tinh", "Đê", "Cơ"],
-    "xuat-hanh": ["Thất", "Phòng", "Chẩn"],
-    "an-tang": ["Hư", "Liễu"],
-  };
-
-  let advice = "";
-  const activitiesToCheck = selectedActivity
-    ? [selectedActivity]
-    : Object.keys(activityStars);
-
-  activitiesToCheck.forEach((act) => {
-    const isGoodStar = activityStars[act]?.includes(nhiThapBatTuResult);
-    const isGood = isGoodStar && goodLucDieu.includes(lucDieuResult);
-    advice += `${getLabelByValue(act)}: ${isGood ? "Tốt ✅" : "Xấu 🚫"}, `;
-  });
-
-  advice = advice.replace(/, $/, ".") || "🔍 Chưa rõ, hãy chọn ngày cẩn thận!";
-  return advice;
-};
-
-const predictGoodDaysInCurrentYear = (
-  selectedActivity,
-  currentDate,
-  userMenh
-) => {
-  const goodDays = [];
-  const startDate = new Date(currentDate);
-  const activityStars = {
-    "xay-dung": ["Đẩu", "Lâu", "Vị", "Sâm", "Trương", "Cang", "Vĩ"],
-    "ket-hon": ["Ngưu", "Tất", "Tinh", "Đê", "Cơ"],
-    "xuat-hanh": ["Thất", "Phòng", "Chẩn"],
-    "an-tang": ["Hư", "Liễu"],
-  };
-  const badDays = ["Hắc Đạo", "Thiên Lao", "Nguyên Vũ", "Câu Trần"];
-
-  for (let i = 0; i < 90; i++) {
-    // Tăng phạm vi tìm kiếm lên 90 ngày
-    const nextDate = new Date(startDate);
-    nextDate.setDate(startDate.getDate() + i);
-    const lunar = solarlunar.solar2lunar(
-      nextDate.getFullYear(),
-      nextDate.getMonth() + 1,
-      nextDate.getDate()
-    );
-    const lucDieuResult = getLucDieu(lunar.lDay, lunar.lMonth).name;
-    const nhiThapBatTuResult = getNhiThapBatTu(lunar.lDay, lunar.lMonth).name;
-
-    // Kiểm tra ngày Hoàng Đạo
-    const isGoodDay = !badDays.some((bad) =>
-      nhiThapBatTu[nhiThapBatTuResult].meaning.includes(bad)
-    );
-
-    if (
-      ["Đại An", "Tốc Hỷ", "Tiểu Cát"].includes(lucDieuResult) &&
-      isGoodDay &&
-      (!selectedActivity ||
-        activityStars[selectedActivity]?.includes(nhiThapBatTuResult)) &&
-      isMenhCompatible(userMenh, lunar.lDay, lunar.lMonth)
-    ) {
-      goodDays.push({
-        date: `${lunar.lDay}/${lunar.lMonth}/${
-          lunar.lYear
-        } (Âm) - ${nextDate.toLocaleDateString("vi-VN")}`,
-        recommendation: recommendGoodBadDays(
-          lunar.lDay,
-          lunar.lMonth,
-          selectedActivity
-        ),
-      });
-    }
-  }
-  return goodDays.slice(0, 5);
-};
-
-// Hàm kiểm tra tương hợp mệnh với ngày
 const isMenhCompatible = (userMenh, lunarDay, lunarMonth) => {
   const dayMenh = getNhiThapBatTu(lunarDay, lunarMonth).element;
   const tuongSinh = {
@@ -523,7 +591,6 @@ Mọi việc ổn định, sự nghiệp tiến chậm nhưng chắc. Tài lộc
     `;
   }
 
-  // Điều chỉnh theo Thái Tuế và Tam Tai
   let additionalAdvice = "";
   if (thaiTue.status !== "Bình an") {
     additionalAdvice += `\n⚠️ ${thaiTue.status}: ${thaiTue.advice}`;

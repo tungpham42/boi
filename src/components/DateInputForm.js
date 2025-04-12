@@ -137,7 +137,7 @@ const DateInputForm = ({
         <Col>
           <Form.Group className="mb-3">
             <Form.Label className="form-label">
-              Ngày sinh (Dương lịch)
+              Xem ngày (Dương lịch)
             </Form.Label>
             <Form.Control
               type="text"
