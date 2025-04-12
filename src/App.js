@@ -5,6 +5,7 @@ import ResultDisplay from "./components/ResultDisplay";
 import { calculateFortune } from "./utils/fortuneCalculator";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "./components/Footer";
 
 function App() {
   const [solarDate, setSolarDate] = useState({
@@ -38,6 +39,7 @@ function App() {
           onSubmit={handleSubmit}
         />
         {result && <ResultDisplay result={result} lunarDate={lunarDate} />}
+        <Footer />
       </Container>
     </div>
   );

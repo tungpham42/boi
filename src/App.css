@@ -103,3 +103,130 @@ body {
     opacity: 1 !important;
   }
 }
+
+/* Custom Datepicker Styling */
+.datepicker {
+  background: rgba(
+    0,
+    0,
+    0,
+    0.85
+  ) !important; /* Dark semi-transparent background */
+  border: 1px solid #ffd700 !important; /* Gold border */
+  border-radius: 10px !important;
+  color: #fff !important; /* White text for readability */
+  font-family: "Montserrat", sans-serif !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3) !important; /* Subtle gold glow */
+}
+
+.datepicker table tr td,
+.datepicker table tr th {
+  text-align: center !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px !important;
+  font-size: 1rem !important;
+}
+
+.datepicker table tr td.day {
+  color: #fff !important; /* White for days */
+  background: transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused,
+.datepicker .datepicker-switch:hover,
+.datepicker table tr td span.focused,
+.datepicker table tr td span:hover {
+  background: #00ced1 !important; /* Turquoise on hover/focus */
+  color: #000 !important; /* Black text for contrast */
+  cursor: pointer !important;
+}
+
+.datepicker table tr td.today {
+  background: rgba(255, 215, 0, 0.2) !important; /* Light gold for today */
+  color: #ffd700 !important; /* Gold text */
+}
+
+.datepicker table tr td.selected,
+.datepicker table tr td.active {
+  background: linear-gradient(
+    45deg,
+    #ffd700,
+    #ff4500
+  ) !important; /* Gold-to-orange gradient */
+  color: #000 !important; /* Black text for contrast */
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5) !important;
+}
+
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+  color: #666 !important; /* Gray for disabled dates */
+  background: transparent !important;
+  cursor: not-allowed !important;
+}
+
+.datepicker .datepicker-switch {
+  color: #ffd700 !important; /* Gold for month/year switcher */
+  font-family: "Dancing Script", cursive !important; /* Match title font */
+  font-size: 1.5rem !important;
+}
+
+.datepicker .prev,
+.datepicker .next {
+  background: transparent !important;
+  color: #ffd700 !important; /* Gold arrows */
+  font-size: 1.2rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.datepicker .prev:hover,
+.datepicker .next:hover {
+  background: #00ced1 !important; /* Turquoise on hover */
+  color: #000 !important;
+}
+
+.datepicker .dow {
+  color: #00ced1 !important; /* Turquoise for day-of-week headers */
+  font-weight: bold !important;
+}
+
+.datepicker-dropdown {
+  padding: 10px !important;
+}
+
+.datepicker .today-btn,
+.datepicker .clear-btn {
+  background: linear-gradient(
+    45deg,
+    #ffd700,
+    #ff4500
+  ) !important; /* Gradient buttons */
+  border: none !important;
+  color: #000 !important;
+  border-radius: 5px !important;
+  padding: 5px 10px !important;
+  margin: 5px !important;
+  transition: all 0.3s ease !important;
+}
+
+.datepicker .today-btn:hover,
+.datepicker .clear-btn:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.7) !important;
+}
+
+/* Ensure input field matches fortune-input */
+#birthdatePicker {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid #ffd700 !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  font-family: "Montserrat", sans-serif !important;
+}
+
+#birthdatePicker:hover,
+#birthdatePicker:focus {
+  border-color: #00ced1 !important;
+  box-shadow: 0 0 10px rgba(0, 206, 209, 0.5) !important;
+}
