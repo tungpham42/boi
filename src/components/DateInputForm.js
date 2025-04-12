@@ -95,6 +95,7 @@ const DateInputForm = ({
         startDate: "01/01/1900",
         endDate: "31/12/2100",
         language: "vi",
+        autoclose: true,
         todayHighlight: true,
       })
       .on("changeDate", (e) => {

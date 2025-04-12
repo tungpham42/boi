@@ -1,5 +1,5 @@
 body {
-  font-family: "Montserrat", sans-serif !important; /* Font chữ chính */
+  font-family: "Be Vietnam Pro", sans-serif !important; /* Font chữ chính */
 }
 
 .app-wrapper {
@@ -36,6 +36,8 @@ body {
 .form-label {
   color: #ffd700 !important; /* Màu vàng cho nhãn */
   font-weight: bold !important;
+  font-size: 0.84rem !important;
+  text-shadow: 1px 1px 2px rgba(255, 215, 0, 0.5) !important;
 }
 
 .fortune-input {
@@ -115,7 +117,7 @@ body {
   border: 1px solid #ffd700 !important; /* Gold border */
   border-radius: 10px !important;
   color: #fff !important; /* White text for readability */
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Be Vietnam Pro", sans-serif !important;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.3) !important; /* Subtle gold glow */
 }
 
@@ -222,7 +224,7 @@ body {
   background: rgba(255, 255, 255, 0.8) !important;
   border: 1px solid #ffd700 !important;
   color: rgba(0, 0, 0, 0.8) !important;
-  font-family: "Montserrat", sans-serif !important;
+  font-family: "Be Vietnam Pro", sans-serif !important;
 }
 
 #birthdatePicker:hover,
